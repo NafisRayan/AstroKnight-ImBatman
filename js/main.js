@@ -30,47 +30,21 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true; // Add smooth damping effect
 controls.dampingFactor = 0.05;
 
-
-// Function to get planet name from URL
-function getPlanetNameFromURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('planet');
-}
-
-const planetName = getPlanetNameFromURL();
-console.log(`Selected Planet: ${planetName}`);
-
-let modelsFolders;
-
-if (planetName === 'jupiter' || planetName === 'saturn' || planetName === 'uranus' || planetName === 'neptune') {
-    modelsFolders = [
-        { folder: 'curiosity_rover', scale: [2.5, 2.5, 2.5], position: [-5, -10, -30], rotation: [0, 0, 0], animation: true },
-        { folder: 'astronaut', scale: [2, 2, 2], position: [-15, -8, -20], rotation: [0, -250.8, 0], animation: true },
-        { folder: 'perseverance_mars_rover', scale: [2, 2, 2], position: [-25, -5, -15], rotation: [0, 0, 0], animation: false },
-        { folder: 'mariner_4_spacecraft', scale: [1, 1, 1], position: [10, 15, -40], rotation: [0, Math.PI, 0], animation: false },
-        { folder: 'space_shuttle', scale: [.9,.9,.9], position: [-35,-5, -100], rotation: [0, -200, 0], animation: false },
-        { folder: 'robot_from_the_series_love_death_and_robots', scale: [.3, .3, .3], position: [15, 0, 5], rotation: [0, 10.2, 0], animation: false },
-        // { folder: 'planet', scale: [1, 1, 1], position: [-10, 15, -50], rotation: [0, Math.PI, 0], animation: false },
-        { folder: 'sci_fi_enclosure', scale: [1.6, 1.6, 1.6], position: [45, -5, -60], rotation: [0, 0, 0], animation: false }
-    ];
-
-} else {
-    // GLTF model folders
-    modelsFolders = [
-        { folder: 'curiosity_rover', scale: [2.5, 2.5, 2.5], position: [-2, -4, -25], rotation: [0, 0, 0], animation: true },
-        { folder: 'astronaut', scale: [2, 2, 2], position: [-12, -4.5, 2], rotation: [0, -250.8, 0], animation: true },
-        { folder: 'perseverance_mars_rover', scale: [2, 2, 2], position: [-18, -3, -12], rotation: [0, 0, 0], animation: false },
-        { folder: 'mariner_4_spacecraft', scale: [1, 1, 1], position: [8, 18, -40], rotation: [0, Math.PI, 0], animation: false },
-        { folder: 'space_shuttle', scale: [.9,.9,.9], position: [-50,-1, -120], rotation: [0, -200, 0], animation: false },
-        { folder: 'robot_from_the_series_love_death_and_robots', scale: [.3, .3, .3], position: [8, 0.-2 , 5], rotation: [0, 10.2, 0], animation: false },
-        { folder: 'planet', scale: [1, 1, 1], position: [-5, 18, -50], rotation: [0, Math.PI, 0], animation: false },
-        { folder: 'solar_skid', scale: [.03,.03,.04], position: [13, -2.3, -11], rotation: [0, -269.3, 0], animation: false },
-        { folder: 'solar_skid', scale: [.03,.03,.04], position: [12, -2.3, -19], rotation: [0, -269.3, 0], animation: false },
-        { folder: 'solar_skid', scale: [.03,.03,.04], position: [11, -2.3, -28], rotation: [0, -269.3, 0], animation: false },
-        { folder: 'solar_skid', scale: [.03,.03,.04], position: [10, -2.3, -37], rotation: [0, -269.3, 0], animation: false },
-        { folder: 'sci_fi_enclosure', scale: [1.6, 1.6, 1.6], position: [40, -2.3, -47], rotation: [0, 0, 0], animation: false }
-    ];
-}
+// GLTF model folders
+const modelsFolders = [
+  { folder: 'curiosity_rover', scale: [2.5, 2.5, 2.5], position: [-2, -4, -25], rotation: [0, 0, 0], animation: true },
+  { folder: 'astronaut', scale: [2, 2, 2], position: [-12, -4.5, 2], rotation: [0, -250.8, 0], animation: true },
+  { folder: 'perseverance_mars_rover', scale: [2, 2, 2], position: [-18, -3, -12], rotation: [0, 0, 0], animation: false },
+  { folder: 'mariner_4_spacecraft', scale: [1, 1, 1], position: [8, 18, -40], rotation: [0, Math.PI, 0], animation: false },
+  { folder: 'space_shuttle', scale: [.9,.9,.9], position: [-50,-1, -120], rotation: [0, -200, 0], animation: false },
+  { folder: 'robot_from_the_series_love_death_and_robots', scale: [.3, .3, .3], position: [8, 0.-2 , 5], rotation: [0, 10.2, 0], animation: false },
+  { folder: 'planet', scale: [1, 1, 1], position: [-5, 18, -50], rotation: [0, Math.PI, 0], animation: false },
+  { folder: 'solar_skid', scale: [.03,.03,.04], position: [13, -2.3, -11], rotation: [0, -269.3, 0], animation: false },
+  { folder: 'solar_skid', scale: [.03,.03,.04], position: [12, -2.3, -19], rotation: [0, -269.3, 0], animation: false },
+  { folder: 'solar_skid', scale: [.03,.03,.04], position: [11, -2.3, -28], rotation: [0, -269.3, 0], animation: false },
+  { folder: 'solar_skid', scale: [.03,.03,.04], position: [10, -2.3, -37], rotation: [0, -269.3, 0], animation: false },
+  { folder: 'sci_fi_enclosure', scale: [1.6, 1.6, 1.6], position: [40, -2.3, -47], rotation: [0, 0, 0], animation: false }
+];
 
 let models = []; // Array to store loaded models
 
@@ -102,7 +76,14 @@ modelsFolders.forEach((modelData) => {
   );
 });
 
+// Function to get planet name from URL
+function getPlanetNameFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('planet') || '';
+}
 
+const planetName = getPlanetNameFromURL();
+console.log(`Selected Planet: ${planetName}`);
 
 // Terrain model loader
 function loadSingleModel(folderName, scale = [1, 1, 1], position = [0, 0, 0], rotation = [0, 0, 0], animation = false) {
@@ -110,7 +91,7 @@ function loadSingleModel(folderName, scale = [1, 1, 1], position = [0, 0, 0], ro
   
   return new Promise((resolve, reject) => {
     loader.load(
-      `terrein_models/${folderName}/${planetName}.gltf`,
+      `models/${folderName}/scene.gltf`,
       (gltf) => {
         const model = gltf.scene;
         
@@ -139,24 +120,14 @@ function loadSingleModel(folderName, scale = [1, 1, 1], position = [0, 0, 0], ro
   });
 }
 
-// async function loadAndAnimateModel(folderName, scale, position, rotation, animation) {
-//   try {
-//     const model = await loadSingleModel(folderName, scale, position, rotation, animation);
-//     console.log(`Model loaded successfully: ${folderName}`);
-//     animateModel(model);
-//   } catch (error) {
-//     console.error(`Error loading model ${folderName}:`, error);
-//   }
-// }
-
-
 async function loadAndAnimateModel(folderName, scale, position, rotation, animation) {
   try {
+    const planetName = getPlanetNameFromURL();
     const model = await loadSingleModel(folderName, scale, position, rotation, animation);
     console.log(`Model loaded successfully: ${folderName}`);
 
     // Change the material color based on the selected planet
-    switch (planetName) {
+    switch (planetName.toLowerCase()) {
       case 'earth':
         model.traverse(function(object) {
           if (object.isMesh) {
@@ -167,8 +138,7 @@ async function loadAndAnimateModel(folderName, scale, position, rotation, animat
       case 'mars':
         model.traverse(function(object) {
           if (object.isMesh) {
-            // object.material.color.setHex(0xff0000); // Red for Mars
-            object.material.color.setHex(0xffffff); // 
+            object.material.color.setHex(0xffffff); // White for Mars
           }
         });
         break;
@@ -202,6 +172,24 @@ async function loadAndAnimateModel(folderName, scale, position, rotation, animat
         break;
       default:
         console.log(`No specific color defined for planet: ${planetName}`);
+      
+        // Add Mercury case to the switch statement
+        case 'mercury':
+          model.traverse(function(object) {
+            if (object.isMesh) {
+              object.material.color.setHex(0xc0c0c0); // Light gray for Mercury
+            }
+          });
+          break;
+
+          // Add Venus case to the switch statement
+          case 'venus':
+            model.traverse(function(object) {
+              if (object.isMesh) {
+                object.material.color.setHex(0xffd700); // Gold/yellow for Venus
+              }
+            });
+            break;
     }
 
     animateModel(model);
