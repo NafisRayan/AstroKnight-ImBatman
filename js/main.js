@@ -79,7 +79,7 @@ modelsFolders.forEach((modelData) => {
 // Function to get planet name from URL
 function getPlanetNameFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('planet');
+  return urlParams.get('planet') || '';
 }
 
 const planetName = getPlanetNameFromURL();
@@ -91,7 +91,7 @@ function loadSingleModel(folderName, scale = [1, 1, 1], position = [0, 0, 0], ro
   
   return new Promise((resolve, reject) => {
     loader.load(
-      `models/${folderName}/${planetName}.gltf`,
+      `models/${folderName}/scene.gltf`,
       (gltf) => {
         const model = gltf.scene;
         
@@ -122,8 +122,76 @@ function loadSingleModel(folderName, scale = [1, 1, 1], position = [0, 0, 0], ro
 
 async function loadAndAnimateModel(folderName, scale, position, rotation, animation) {
   try {
+    const planetName = getPlanetNameFromURL();
     const model = await loadSingleModel(folderName, scale, position, rotation, animation);
     console.log(`Model loaded successfully: ${folderName}`);
+
+    // Change the material color based on the selected planet
+    switch (planetName.toLowerCase()) {
+      case 'earth':
+        model.traverse(function(object) {
+          if (object.isMesh) {
+            object.material.color.setHex(0x00ff00); // Green for Earth
+          }
+        });
+        break;
+      case 'mars':
+        model.traverse(function(object) {
+          if (object.isMesh) {
+            object.material.color.setHex(0xffffff); // White for Mars
+          }
+        });
+        break;
+      case 'jupiter':
+        model.traverse(function(object) {
+          if (object.isMesh) {
+            object.material.color.setHex(0xffff00); // Yellow for Jupiter
+          }
+        });
+        break;
+      case 'saturn':
+        model.traverse(function(object) {
+          if (object.isMesh) {
+            object.material.color.setHex(0xffff00); // Yellow for Saturn
+          }
+        });
+        break;
+      case 'uranus':
+        model.traverse(function(object) {
+          if (object.isMesh) {
+            object.material.color.setHex(0x0000ff); // Blue for Uranus
+          }
+        });
+        break;
+      case 'neptune':
+        model.traverse(function(object) {
+          if (object.isMesh) {
+            object.material.color.setHex(0x0000ff); // Blue for Neptune
+          }
+        });
+        break;
+      default:
+        console.log(`No specific color defined for planet: ${planetName}`);
+      
+        // Add Mercury case to the switch statement
+        case 'mercury':
+          model.traverse(function(object) {
+            if (object.isMesh) {
+              object.material.color.setHex(0xc0c0c0); // Light gray for Mercury
+            }
+          });
+          break;
+
+          // Add Venus case to the switch statement
+          case 'venus':
+            model.traverse(function(object) {
+              if (object.isMesh) {
+                object.material.color.setHex(0xffd700); // Gold/yellow for Venus
+              }
+            });
+            break;
+    }
+
     animateModel(model);
   } catch (error) {
     console.error(`Error loading model ${folderName}:`, error);
